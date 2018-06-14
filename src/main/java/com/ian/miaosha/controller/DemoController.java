@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ian.miaosha.domain.User;
+import com.ian.miaosha.redis.UserKey;
 import com.ian.miaosha.result.CodeMsg;
 import com.ian.miaosha.result.Result;
 import com.ian.miaosha.service.RedisService;
@@ -59,15 +60,18 @@ public class DemoController {
 	
 	@RequestMapping("/redis/get/{key}")
 	@ResponseBody
-	public Result<Long> redisGet(@PathVariable String key){
-		Long long1 = redisService.get(key, Long.class);
-		return Result.success(long1);
+	public Result<User> redisGet(@PathVariable String key){
+		User user = redisService.get(UserKey.getById, key, User.class);
+		return Result.success(user);
 	}
 	
-	@RequestMapping("/redis/set/{key},{value}")
+	@RequestMapping("/redis/set")
 	@ResponseBody
-	public Result<Boolean> redisSet(@PathVariable String key, @PathVariable String value){
-		Boolean bool = redisService.set(key, value);
+	public Result<Boolean> redisSet(){
+		User user = new User();
+		user.setId(1);
+		user.setName("zhengnan");
+		Boolean bool = redisService.set(UserKey.getById, "" + 1, user);
 		return Result.success(bool);
 	}
 }
