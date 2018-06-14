@@ -18,7 +18,7 @@ public class BasePrefix implements KeyPrefix{
 	
 	@Override
 	public int expireSeconds() { // 0 for ever
-		return 0;
+		return this.expireSeconds;
 	}
 
 	@Override
@@ -26,6 +26,5 @@ public class BasePrefix implements KeyPrefix{
 		String className = getClass().getSimpleName();
 		return className + ":" + prefix;
 	}
-
 
 }
