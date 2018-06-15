@@ -23,6 +23,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-tomcat</artifactId>
+		    <!-- <scope>provided</scope> --> <!--  编译时依赖，加了这个，表示我们要用tomcat 服务器来运行项目 -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,11 +71,19 @@
 	</dependencies>
 	
 	<build>
+		<!-- <finalName>${project.artifactId}</finalName> -->
 		<plugins>
-			<plugin>
+			<plugin><!-- 这个是打Jar包的插件 -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<!-- <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin> -->
 		</plugins>
 	</build>
 </project>
