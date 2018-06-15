@@ -51,7 +51,8 @@ public class MiaoshaUserService {
 		}
 		 
 		// 生成cookie
-		addCookie(rep, user);
+		String token = UUIDUtil.uuid();
+		addCookie(rep, token, user);
 		return true;
 		
 	}
@@ -63,15 +64,14 @@ public class MiaoshaUserService {
 		MiaoshaUser user = redisService.get(MiaoshaUserKey.token, token, MiaoshaUser.class);
 		//延长有效期： 比如30分钟过期，如果在30分钟内再次登录则为登录时间再加30分钟为过期时间
 		if (user != null) {
-			addCookie(rep, user);
+			addCookie(rep, token, user);
 		}
 		
 		return user;
 	}
 	
-	public void addCookie(HttpServletResponse rep, MiaoshaUser user) {
-		// 生成cookie
-		String token = UUIDUtil.uuid();
+	public void addCookie(HttpServletResponse rep, String token, MiaoshaUser user) {
+
 		redisService.set(MiaoshaUserKey.token, token, user); 
 		Cookie cookie = new Cookie(COOKIE_NAME, token);
 		cookie.setMaxAge(MiaoshaUserKey.token.expireSeconds()); // 这里设计巧妙
