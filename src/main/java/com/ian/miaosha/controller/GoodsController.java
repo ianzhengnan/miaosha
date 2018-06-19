@@ -24,6 +24,13 @@ public class GoodsController {
 	@Autowired
 	GoodsService goodsService;
 	
+	/**
+	 * QPS: 181
+	 * 5000 * 10 线程数 * 循环次数
+	 * @param model
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping("/to_list")
 	public String list(Model model, MiaoshaUser user) {
 		// 获得登录用户
