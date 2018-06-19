@@ -40,8 +40,11 @@ public class GoodsController {
 	ThymeleafViewResolver thymeleafViewResolver;
 	
 	/**
-	 * QPS: 181
 	 * 5000 * 10 线程数 * 循环次数
+	 * QPS: 181
+	 * 页面缓存后：
+	 * QPS: 721
+	 * 
 	 * @param model
 	 * @param user
 	 * @return
