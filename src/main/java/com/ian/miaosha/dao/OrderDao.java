@@ -21,6 +21,7 @@ public interface OrderDao {
 	long insert(OrderInfo orderInfo); 
 	
 	@Insert("insert into miaosha_order(user_id, goods_id, order_id) values(#{userId}, #{goodsId}, #{orderId}) ")
+	//@SelectKey(keyColumn="id", keyProperty="id", resultType=long.class, before=false, statement="select last_insert_id()")
 	int insertMiaoshaOrder(MiaoshaOrder miaoshaOrder);
 
 	@Select("select * from order_info where id = #{orderId}")

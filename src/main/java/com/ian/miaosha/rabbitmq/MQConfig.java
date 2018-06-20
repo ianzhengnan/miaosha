@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class MQConfig {
 	
 	public static final String QUEUE = "queue";
+	public static final String MIAOSHA_QUEUE = "miaosh.queue";
 	public static final String TOPIC_QUEUE1 = "topic.queue1";
 	public static final String TOPIC_QUEUE2 = "topic.queue2";
 	public static final String HEADER_QUEUE = "header.queue";
@@ -24,6 +25,12 @@ public class MQConfig {
 	public static final String HEADERS_EXCHANGE = "headersExchange";
 //	public static final String ROUTING_KEY1 = "topic.key1";
 //	public static final String ROUTING_KEY2 = "topic.#";// *代表一个单词，#代表0个或者多个单词
+	
+	@Bean
+	public Queue miaoshaQueue() {
+		return new Queue(MIAOSHA_QUEUE, true);
+	}
+	
 	/**
 	 * Direct模式 Exchange交换机(四种模式)
 	 * 

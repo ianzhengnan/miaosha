@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 	// 定义拦截的异常类型
 	@ExceptionHandler(value=Exception.class)
 	public Result<String> exceptionHander(HttpServletRequest req, Exception exp){
-//		exp.printStackTrace(); // 如果碰到console里没有错误消息的时候，可以把这句放出来，就有出错信息了。
+		exp.printStackTrace(); // 如果碰到console里没有错误消息的时候，可以把这句放出来，就有出错信息了。
 		// 这里统一处理抛出的业务异常
 		if (exp instanceof GlobalException) {
 			
