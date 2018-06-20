@@ -23,6 +23,7 @@ public class CodeMsg {
 	// 商品模块 5003xx
 	
 	// 订单模块 5004xx
+	public static CodeMsg ORDER_NOT_EXISTS = new CodeMsg(500400, "订单不存在");
 	
 	// 秒杀模块 5005xx
 	public static CodeMsg MIAOSHA_OVER = new CodeMsg(500500, "商品已经秒杀完毕");
@@ -46,5 +47,12 @@ public class CodeMsg {
 	public String getMsg() {
 		return msg;
 	}
+
+	@Override
+	public String toString() {
+		return "CodeMsg [code=" + code + ", msg=" + msg + "]";
+	}
+	
+	
 	
 }

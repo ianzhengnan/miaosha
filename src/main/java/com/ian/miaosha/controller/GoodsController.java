@@ -18,9 +18,11 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import com.ian.miaosha.domain.MiaoshaUser;
 import com.ian.miaosha.redis.GoodsKey;
+import com.ian.miaosha.result.Result;
 import com.ian.miaosha.service.GoodsService;
 import com.ian.miaosha.service.MiaoshaUserService;
 import com.ian.miaosha.service.RedisService;
+import com.ian.miaosha.vo.GoodsDetailVo;
 import com.ian.miaosha.vo.GoodsVo;
 
 @Controller
@@ -130,5 +132,47 @@ public class GoodsController {
 		return html;
 	}
 	
+	/**
+	 * 动静分离
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param user
+	 * @param goodsId
+	 * @return
+	 */
+	@RequestMapping(value="/detail/{goodsId}")
+	@ResponseBody
+	public Result<GoodsDetailVo> detail2(MiaoshaUser user, @PathVariable("goodsId")long goodsId) {
+				
+		GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
+				
+		//获得秒杀开始结束时间
+		long startAt = goods.getStartDate().getTime();
+		long endAt = goods.getEndDate().getTime();
+		long now = System.currentTimeMillis();
+		
+		// 秒杀状态
+		int miaoshaStatus = 0;
+		int remainSeconds = 0;
+		
+		if(now < startAt) { // 秒杀还没开始，倒计时
+			miaoshaStatus = 0;
+			remainSeconds = (int) ((startAt - now) / 1000);
+		}else if (now > endAt) { // 秒杀已经结束
+			miaoshaStatus = 2;
+			remainSeconds = -1;
+		}else{ // 秒杀进行中
+			miaoshaStatus = 1;
+			remainSeconds = 0;
+		}
+		
+		GoodsDetailVo vo = new GoodsDetailVo();
+		vo.setUser(user);
+		vo.setGoods(goods);
+		vo.setMiaoshaStatus(miaoshaStatus);
+		vo.setRemainSeconds(remainSeconds);
+		return Result.success(vo);
+	}
 	
 }
