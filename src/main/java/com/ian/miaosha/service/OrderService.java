@@ -49,8 +49,6 @@ public class OrderService {
 		miaoshaOrder.setOrderId(orderInfo.getId());
 		miaoshaOrder.setUserId(user.getId());
 		orderDao.insertMiaoshaOrder(miaoshaOrder);
-//		System.out.println("返回订单号： " + orderInfo.getId());
-//		System.out.println("方法返回订单号： " + orderId);
 		// 下单成功后写入缓存
 		redisService.set(OrderKey.getMiaoshaOrderByUidGid, ""+user.getId()+"_"+goods.getId(), miaoshaOrder);
 		
