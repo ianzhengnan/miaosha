@@ -54,7 +54,7 @@ public class MiaoshaController {
 		int stock = goods.getStockCount();
 		if (stock <= 0) {
 			return Result.error(CodeMsg.MIAOSHA_OVER);
-		}
+		}	
 		
 		// 判断是否秒杀到了
 		MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdAndGoodsId(user.getId(), goodsId);

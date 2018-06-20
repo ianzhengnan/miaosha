@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ian.miaosha.domain.User;
+import com.ian.miaosha.rabbitmq.MQSender;
 import com.ian.miaosha.redis.UserKey;
 import com.ian.miaosha.result.CodeMsg;
 import com.ian.miaosha.result.Result;
@@ -15,6 +16,7 @@ import com.ian.miaosha.service.RedisService;
 import com.ian.miaosha.service.UserService;
 
 @Controller
+@RequestMapping("/demo")
 public class DemoController {
 
 	@Autowired
@@ -22,6 +24,37 @@ public class DemoController {
 	
 	@Autowired
 	RedisService redisService;
+	
+	@Autowired
+	MQSender sender;
+	
+	@RequestMapping("/mq")
+	@ResponseBody
+	public Result<String> mq() {
+		sender.send("hello, Ian!");
+		return Result.success("hello, ian");
+	}
+	
+	@RequestMapping("/mq/topic")
+	@ResponseBody
+	public Result<String> topic() {
+		sender.topicSend("hello, Ian!");
+		return Result.success("hello, ian");
+	}
+	
+	@RequestMapping("/mq/fanout")
+	@ResponseBody
+	public Result<String> fanout() {
+		sender.fanoutSend("hello, Ian!");
+		return Result.success("hello, ian");
+	}
+	
+	@RequestMapping("/mq/header")
+	@ResponseBody
+	public Result<String> header() {
+		sender.headerSend("hello, Ian Header!");
+		return Result.success("hello, ian Header.");
+	}
 	
 	@RequestMapping("/hello")
 	@ResponseBody
@@ -74,4 +107,6 @@ public class DemoController {
 		Boolean bool = redisService.set(UserKey.getById, "" + 1, user);
 		return Result.success(bool);
 	}
+	
+	
 }
