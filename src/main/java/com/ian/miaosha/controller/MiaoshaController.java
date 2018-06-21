@@ -70,6 +70,7 @@ public class MiaoshaController implements InitializingBean{
 	 * QPS 326
 	 * 5000 * 10
 	 * QPS 638 after performance tuning 1st
+	 * QPS 485 after performance tuning 2st by adding rabbitmq 
 	 * @param model
 	 * @param user
 	 * @param goodsId
@@ -84,12 +85,12 @@ public class MiaoshaController implements InitializingBean{
 		if(user == null) {
 			return Result.error(CodeMsg.SESSION_ERROR);
 		}
-		log.info(user.getId().toString());
+//		log.info(user.getId().toString());
 		
 		boolean isOver = localOverMap.get(goodsId);
-//		if (isOver) {
-//			return Result.error(CodeMsg.MIAOSHA_OVER);
-//		}
+		if (isOver) {
+			return Result.error(CodeMsg.MIAOSHA_OVER);
+		}
 		
 		// 在redis中预减库存
 		long stock = redisService.desc(GoodsKey.getMiaoshaGoodsStock, ""+goodsId);
@@ -112,22 +113,6 @@ public class MiaoshaController implements InitializingBean{
 		
 		return Result.success(0); // 0表示排队中
 		
-		/*// 判断库存
-		GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
-		int stock = goods.getStockCount();
-		if (stock <= 0) {
-			return Result.error(CodeMsg.MIAOSHA_OVER);
-		}	
-		
-		// 判断是否秒杀到了
-		MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdAndGoodsId(user.getId(), goodsId);
-		if (order != null) {
-			return Result.error(CodeMsg.MIAOSHA_REPEATE);
-		}
-		//减库存 下订单 写入秒杀订单 必须放在事务中 成功失败一起 原子操作
-		OrderInfo orderInfo = miaoshaService.miaosha(user, goods);*/
-		
-		//return Result.success(0);
 	}
 
 	/**

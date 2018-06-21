@@ -40,8 +40,8 @@ public class UserUtil {
 		
 		System.out.println("create user");
 		
-		// insert db
-		Connection conn = DBUtil.getConnection();
+		// insert db 第一次需要运行插入数据库的代码， 以后进行压测，如果redis被清空，要把这里注释起来然后跑一遍。 
+		/*Connection conn = DBUtil.getConnection();
 		String sql = "insert into miaosha_user(login_count, nickname, register_date, salt, password, id) values(?,?,?,?,?,?)";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		for(int i=0;i<users.size();i++) {
@@ -57,7 +57,7 @@ public class UserUtil {
 		pstmt.executeBatch();
 		pstmt.close();
 		conn.close();
-		System.out.println("insert to db");
+		System.out.println("insert to db");*/
 		
 		// login and generate token
 		String urlString = "http://localhost:8080/login/do_login";
